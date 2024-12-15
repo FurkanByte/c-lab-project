@@ -13,7 +13,7 @@ typedef struct {
     char title[100];
     char author[100]; 
     int yearPublished;
-    int isAvailable; // 1 available: 0 not available //slm yakisikli
+    int isAvailable; // 1 available: 0 not available
 } book;
 
 //User Structer
@@ -35,7 +35,19 @@ void listBorrowedBooks(); //by a user
 int menu();
 
 void main(){
-    int option = menu();
+    int option;
+    do {
+        option = menu();
+        //if (option == 1) addBook();
+        //else if (option == 2) deleteBook();
+        //else if (option == 3) searchBookByTitle();
+        //else if (option == 4) searchBookByAuthor();
+        //else if (option == 5) checkOutBook();
+        //else if (option == 6) returnBook();
+        //else if (option == 7) listBooks();
+        //else if (option == 8) listBorrowedBooks();
+        //else if (option == 9) break;
+    }while(1);
 
   }
 
@@ -51,7 +63,7 @@ int menu() {
     printf("6. Return Book (from a user)\n");
     printf("7. List All Books\n");
     printf("8. List Borrowed Books of User\n");
-    printf("9. Exit\n");
+    printf("0. Exit\n");
     printf("Enter your option: ");
     scanf("%d", &option);
     return option;
