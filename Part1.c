@@ -79,7 +79,7 @@ int menu() {
 }
 
 void addBook() {
-    if (bookCount == 99) {
+    if (bookCount == 100) {
         printf("Too many books! Cannot add another.\n");
         return;
     }
@@ -96,3 +96,46 @@ void addBook() {
 
     bookCount++;
 }
+
+void deleteBook() {
+    int bookIDtoDelete;
+    if (bookCount == 0) {
+        printf("There is no books in this system.\n");
+        return;
+    }
+    printf("Enter book ID to delete: ");
+    scanf("%d", &bookIDtoDelete);
+
+    for (int i = 0; i < bookCount; i++) {
+        if (books[i].bookID == bookIDtoDelete) {
+            printf(
+                   "Book ID: %d"
+                   "Book title: %s"
+                   "Author: %s"
+                   "Year published: %d"
+                   "Are you sure you want to delete the book (Y/n)?\n");
+            char option;
+            scanf(" %c", &option);
+            if (option == 'n') {
+                return;
+            }
+            else if (option == 'Y') {
+                for (int j = i; j < bookCount; j++) {
+                    books[j] = books[j + 1];
+                }
+                printf("Book succesfully deleted.");
+                return;
+            }
+        }
+    }
+    printf("There is no books with that ID in this system.\n");
+}
+
+/*void listBooks() {
+    if (bookCount == 0) {
+        printf("There is no books in this system.\n");
+        return;
+    }
+    for (int i = 0; i < bookCount; i++) {
+        printf
+}*/
