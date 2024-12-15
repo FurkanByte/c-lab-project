@@ -43,7 +43,7 @@ int userCount = 0;
 
 
 void main(){
-    //Users
+    //Users definitions
     users[0].userID = 1;
     strcpy(users[0].name, "Furkan");
     users[0].borrowedBooksCount = 0;
@@ -65,9 +65,9 @@ void main(){
         else if (option == 3) searchBookByTitle();
         else if (option == 4) searchBookByAuthor();
         else if (option == 5) checkOutBook();
-        //else if (option == 6) returnBook();
+        else if (option == 6) returnBook();
         else if (option == 7) listBooks();
-        //else if (option == 8) listBorrowedBooks();
+        else if (option == 8) listBorrowedBooks();
         else if (option == 9) break;
     }while(1);
 
@@ -76,7 +76,7 @@ void main(){
 int menu() {
     int option;
     printf("----------------------------\n"
-           "  Library Managment System\n"
+           "  Library Management System\n"
            "----------------------------\n"
            "1. Add New Book\n"
            "2. Delete Book\n"
@@ -85,7 +85,7 @@ int menu() {
            "5. Check out Book (to a user)\n"
            "6. Return Book (from a user)\n"
            "7. List All Books\n"
-           "8. List Borrowes Books of User\n"
+           "8. List Borrowed Books of User\n"
            "0. Exit\n"
            "----------------------------\n\n"
            "Enter your choice : ");
@@ -252,4 +252,51 @@ void checkOutBook() {
         }
     }
     printf("There is no books with that title in this system.\n");
+}
+
+void returnBook() {
+    if (bookCount == 0) {
+        printf("There is no books in this system.\n");
+        return;
+    }
+    int userIDtoReturn;
+    int bookIDtoReturn;
+    printf("Enter user ID to return: ");
+    scanf("%d", &userIDtoReturn);
+    if (users[userIDtoReturn].borrowedBooksCount == 0) {
+        printf("This user do not have a borrowed book.\n");
+        return;
+    }
+    printf("List of book(s) borrowed from %s:\n", users[0].name);
+    for (int i = 0; i < users[userIDtoReturn].borrowedBooksCount; i++){
+        printf("    -Book ID: %d\n", users[userIDtoReturn].checkedOutBooks[i]);
+    }
+    printf("Enter bookID to return: ");
+    scanf("%d", &bookIDtoReturn);
+    for (int i = 0; i < users[userIDtoReturn].borrowedBooksCount; i++) {
+        if (books[i].bookID == bookIDtoReturn) {
+            books[i].isAvailable = 1;
+            users[userIDtoReturn].borrowedBooksCount--;
+            printf("Book set as returned.");
+            return;
+        }
+    }
+}
+
+void listBorrowedBooks() {
+    if (bookCount == 0) {
+        printf("There is no books in this system.\n");
+        return;
+    }
+    int userIDtoSearch;
+    printf("Enter user ID to list borrowed books by user: ");
+    scanf("%d", &userIDtoSearch);
+    if (users[userIDtoSearch].borrowedBooksCount == 0) {
+        printf("This user do not have a borrowed book.\n");
+        return;
+    }
+    printf("List of book(s) borrowed from %s:\n", users[0].name);
+    for (int i = 0; i < users[userIDtoSearch].borrowedBooksCount; i++){
+        printf("    -Book ID: %d\n", users[userIDtoSearch].checkedOutBooks[i]);
+    }
 }
