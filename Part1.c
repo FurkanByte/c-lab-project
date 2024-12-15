@@ -5,7 +5,7 @@
 //
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
 //Book Structer
 typedef struct {
@@ -21,6 +21,7 @@ typedef struct {
     int userID;
     char name[100];
     int checkedOutBooks[10]; //IDs of the books borrowed by the user.
+    int borrowedBooksCount;
 } user;
 
 //Function Prototypes
@@ -40,16 +41,30 @@ int bookCount = 0;
 user users[50];
 int userCount = 0;
 
+
 void main(){
+    //Users
+    users[0].userID = 1;
+    strcpy(users[0].name, "Furkan");
+    users[0].borrowedBooksCount = 0;
+
+    users[1].userID = 2;
+    strcpy(users[1].name, "Albert");
+    users[1].borrowedBooksCount = 0;
+
+    users[2].userID = 3;
+    strcpy(users[2].name, "Trump");
+    users[2].borrowedBooksCount = 0;
+
     int option;
 
     do {
         option = menu();
         if (option == 1) addBook();
         else if (option == 2) deleteBook();
-        //else if (option == 3) searchBookByTitle();
-        //else if (option == 4) searchBookByAuthor();
-        //else if (option == 5) checkOutBook();
+        else if (option == 3) searchBookByTitle();
+        else if (option == 4) searchBookByAuthor();
+        else if (option == 5) checkOutBook();
         //else if (option == 6) returnBook();
         else if (option == 7) listBooks();
         //else if (option == 8) listBorrowedBooks();
@@ -85,9 +100,9 @@ void addBook() {
     }
     printf("Enter book ID: ");
     scanf("%d", &books[bookCount].bookID);
-    printf("Enter title: ");
+    printf("Enter title (Do not use spaces): ");
     scanf("%s", books[bookCount].title);
-    printf("Enter author: ");
+    printf("Enter author (Do not use spaces): ");
     scanf("%s", books[bookCount].author);
     printf("Enter year published: ");
     scanf("%d", &books[bookCount].yearPublished);
@@ -123,8 +138,12 @@ void deleteBook() {
                 for (int j = i; j < bookCount; j++) {
                     books[j] = books[j + 1];
                 }
-                printf("Book succesfully deleted.");
+                printf("Book succesfully deleted.\n");
                 bookCount--;
+                return;
+            }
+            else {
+                printf("Invalid option.\n");
                 return;
             }
         }
@@ -147,4 +166,90 @@ void listBooks() {
         else printf("Book not available\n\n");
     }
     printf("All books listed.\n");
+}
+
+int searchBookByTitle() {
+    if (bookCount == 0) {
+        printf("There is no books in this system.\n");
+        return -1;
+    }
+
+    char titleToSearch[100];
+    printf("Enter title to search (Do not use spaces): ");
+    scanf("%s", titleToSearch);
+    for (int i = 0; i < bookCount; i++) {
+        if (strcmp(titleToSearch, books[i].title) == 0) {
+            printf("Book ID: %d\n"
+                   "Book title: %s\n"
+                   "Author: %s\n"
+                   "Year published: %d\n", books[i].bookID, books[i].title, books[i].author, books[i].yearPublished);
+            if (books[i].isAvailable == 1) printf("Book available\n\n");
+            else printf("Book not available\n\n");
+            return i;
+        }
+    }
+    printf("There is no books with that title in system.\n");
+    return -1;
+}
+
+//This function display just first book in the list by an author.
+int searchBookByAuthor() {
+    if (bookCount == 0) {
+        printf("There is no books in this system.\n");
+        return -1;
+    }
+    char authorToSearch[100];
+    printf("Enter author to search (Do not use spaces): ");
+    scanf("%s", authorToSearch);
+    for (int i = 0; i < bookCount; i++) {
+        if (strcmp(authorToSearch, books[i].author) == 0) {
+            printf("Book ID: %d\n"
+                   "Book title: %s\n"
+                   "Author: %s\n"
+                   "Year published: %d\n", books[i].bookID, books[i].title, books[i].author, books[i].yearPublished);
+            if (books[i].isAvailable == 1) printf("Book available\n\n");
+            else printf("Book not available\n\n");
+            return i;
+        }
+    }
+    printf("There is no books with that author in system.\n");
+    return -1;
+
+}
+
+void checkOutBook() {
+    int bookIDtoCheckOut;
+    int userIDtoCheckOut;
+    if (bookCount == 0) {
+        printf("There is no books in this system.\n");
+        return;
+    }
+    printf("Enter book ID to check out: ");
+    scanf("%d", &bookIDtoCheckOut);
+    for (int i = 0; i < bookCount; i++) {
+        if (books[i].bookID == bookIDtoCheckOut) {
+            printf("Book ID: %d\n"
+                "Book title: %s\n"
+                "Author: %s\n"
+                "Year published: %d\n\n", books[i].bookID, books[i].title, books[i].author, books[i].yearPublished);
+            if (books[i].isAvailable == 1) {
+                printf("Enter a user ID to check out: ");
+                scanf("%d", &userIDtoCheckOut);
+                if(users[userIDtoCheckOut].borrowedBooksCount >= 10) {
+                    printf("This user cannot barrow another book.\n");
+                    return;
+                }
+                else {
+                    users[userIDtoCheckOut].checkedOutBooks[users[userIDtoCheckOut].borrowedBooksCount] = bookIDtoCheckOut;
+                    users[userIDtoCheckOut].borrowedBooksCount++;
+                    books[i].isAvailable = 0;
+                    printf("Book borrowed to %s\n\n", users[0].name);
+                    return;
+                }
+            }
+            else printf("Book not available.\n");
+            return;
+        }
+    }
+    printf("There is no books with that title in this system.\n");
 }
