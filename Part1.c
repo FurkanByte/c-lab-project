@@ -11,9 +11,9 @@
 typedef struct {
     int bookID;
     char title[100];
-    char author[100];
+    char author[100]; 
     int yearPublished;
-    int isAvailable; // 1 available: 0 not available
+    int isAvailable; // 1 available: 0 not available //slm yakisikli
 } book;
 
 //User Structer
