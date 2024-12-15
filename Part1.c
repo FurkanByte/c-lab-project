@@ -46,14 +46,14 @@ void main(){
     do {
         option = menu();
         if (option == 1) addBook();
-        //else if (option == 2) deleteBook();
+        else if (option == 2) deleteBook();
         //else if (option == 3) searchBookByTitle();
         //else if (option == 4) searchBookByAuthor();
         //else if (option == 5) checkOutBook();
         //else if (option == 6) returnBook();
-        //else if (option == 7) listBooks();
+        else if (option == 7) listBooks();
         //else if (option == 8) listBorrowedBooks();
-        //else if (option == 9) break;
+        else if (option == 9) break;
     }while(1);
 
   }
@@ -131,11 +131,19 @@ void deleteBook() {
     printf("There is no books with that ID in this system.\n");
 }
 
-/*void listBooks() {
+void listBooks() {
     if (bookCount == 0) {
         printf("There is no books in this system.\n");
         return;
     }
     for (int i = 0; i < bookCount; i++) {
-        printf
-}*/
+        printf("**** - Book %d - ******************\n"
+               "Book ID: %d\n"
+               "Book title: %s\n"
+               "Author: %s\n"
+               "Year published: %d\n", i+1, books[i].bookID, books[i].title, books[i].author, books[i].yearPublished);
+        if (books[i].isAvailable == 1) printf("Book available\n\n");
+        else printf("Book not available\n\n");
+    }
+    printf("All books listed.\n");
+}
