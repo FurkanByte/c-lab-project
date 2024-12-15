@@ -34,11 +34,18 @@ void listBooks();
 void listBorrowedBooks(); //by a user
 int menu();
 
+//Global Variables
+book books[100];
+int bookCount = 0;
+user users[50];
+int userCount = 0;
+
 void main(){
     int option;
+
     do {
         option = menu();
-        //if (option == 1) addBook();
+        if (option == 1) addBook();
         //else if (option == 2) deleteBook();
         //else if (option == 3) searchBookByTitle();
         //else if (option == 4) searchBookByAuthor();
@@ -53,18 +60,39 @@ void main(){
 
 int menu() {
     int option;
-    printf("Library Managment System\n");
-    printf("--------------------------\n");
-    printf("1. Add New Book\n");
-    printf("2. Delete Book\n");
-    printf("3. Search Book by Title\n");
-    printf("4. Search Book by Author\n");
-    printf("5. Check out Book (to a user)\n");
-    printf("6. Return Book (from a user)\n");
-    printf("7. List All Books\n");
-    printf("8. List Borrowed Books of User\n");
-    printf("0. Exit\n");
-    printf("Enter your option: ");
+    printf("----------------------------\n"
+           "  Library Managment System\n"
+           "----------------------------\n"
+           "1. Add New Book\n"
+           "2. Delete Book\n"
+           "3. Search Book by Title\n"
+           "4. Search Book by Author\n"
+           "5. Check out Book (to a user)\n"
+           "6. Return Book (from a user)\n"
+           "7. List All Books\n"
+           "8. List Borrowes Books of User\n"
+           "0. Exit\n"
+           "----------------------------\n\n"
+           "Enter your choice : ");
     scanf("%d", &option);
     return option;
+}
+
+void addBook() {
+    if (bookCount == 99) {
+        printf("Too many books! Cannot add another.\n");
+        return;
+    }
+    printf("Enter book ID: ");
+    scanf("%d", &books[bookCount].bookID);
+    printf("Enter title: ");
+    scanf("%s", books[bookCount].title);
+    printf("Enter author: ");
+    scanf("%s", books[bookCount].author);
+    printf("Enter year published: ");
+    scanf("%d", &books[bookCount].yearPublished);
+    books[bookCount].isAvailable = 1;
+    printf("Book '%s' added successfully.\n\n", books[bookCount].title);
+
+    bookCount++;
 }
