@@ -109,11 +109,11 @@ void deleteBook() {
     for (int i = 0; i < bookCount; i++) {
         if (books[i].bookID == bookIDtoDelete) {
             printf(
-                   "Book ID: %d"
-                   "Book title: %s"
-                   "Author: %s"
-                   "Year published: %d"
-                   "Are you sure you want to delete the book (Y/n)?\n");
+                   "Book ID: %d\n"
+                   "Book title: %s\n"
+                   "Author: %s\n"
+                   "Year published: %d\n"
+                   "Are you sure you want to delete the book (Y/n)?\n", bookIDtoDelete, books[i].title, books[i].author, books[i].yearPublished);
             char option;
             scanf(" %c", &option);
             if (option == 'n') {
@@ -124,6 +124,7 @@ void deleteBook() {
                     books[j] = books[j + 1];
                 }
                 printf("Book succesfully deleted.");
+                bookCount--;
                 return;
             }
         }
