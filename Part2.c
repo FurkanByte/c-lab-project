@@ -35,8 +35,7 @@ void listBooks(bookNode *head);
 void listBorrowedBooks(userNode *userHead, int userID);
 
 void main(){
-    bookNode *bookHead = NULL;
-    userNode *userHead = NULL;
+
 
     //Users definitions
     userNode user1;
@@ -46,14 +45,20 @@ void main(){
     user1.userID = 1;
     strcpy(user1.name, "Furkan");
     user1.next = &user2;
+    user1.borrowedBooks = NULL;
 
     user2.userID = 2;
     strcpy(user2.name, "Albert");
     user2.next = &user3;
+    user2.borrowedBooks = NULL;
 
     user3.userID = 3;
     strcpy(user3.name, "Trump");
     user3.next = NULL;
+    user3.borrowedBooks = NULL;
+
+    bookNode *bookHead = NULL;
+    userNode *userHead = &user1;
 
     int option;
 
@@ -106,7 +111,15 @@ void main(){
             }
 
         }
-        //else if (option == 5) checkOutBook();
+        /*else if (option == 5) {
+            int userID, bookID;
+            printf("Enter user ID to borrow: ");
+            scanf("%d", &userID);
+            printf("Enter book ID to borrow: ");
+            scanf("%d", &bookID);
+
+            checkOutBook(userHead, userID, bookHead, bookID);
+        }*/
         //else if (option == 6) returnBook();
         else if (option == 7) listBooks(bookHead);
         //else if (option == 8) listBorrowedBooks();
@@ -234,3 +247,36 @@ bookNode* searchBookByAuthor(bookNode* head, const char* author) {
     return NULL;
 }
 
+void checkOutBook(userNode *userHead, int userID, bookNode *bookHead, int bookID) {
+    userNode* tempUser = userHead;
+    while (tempUser->userID != userID)  tempUser = tempUser->next;
+    if (tempUser->userID == userID) {
+        bookNode* tempBook = bookHead;
+        while (tempBook->bookID != bookID) tempBook = tempBook->next;
+        if (tempBook->bookID == bookID) {
+            if (tempBook->isAvailable == 1) {
+                tempBook->isAvailable = 0;
+                if (tempUser -> borrowedBooks == NULL) {
+                    tempUser -> borrowedBooks = tempBook;
+                    tempUser -> borrowedBooks -> next = tempUser -> borrowedBooks;
+                }
+                else {
+                    bookNode* tempBorrowedBooks = tempUser -> borrowedBooks;
+                    while (tempBorrowedBooks->next == tempBorrowedBooks) {
+                        tempBorrowedBooks = tempBorrowedBooks->next;
+                    }
+
+                }
+            }
+            else {
+                printf("Book is not available.\n\n");
+                return;
+            }
+
+
+
+        }
+        else printf("UserID %d not found!\n", userID);
+
+    }
+} //Not Completed
