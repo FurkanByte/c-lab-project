@@ -68,7 +68,7 @@ void main(){
         else if (option == 6) returnBook();
         else if (option == 7) listBooks();
         else if (option == 8) listBorrowedBooks();
-        else if (option == 9) break;
+        else if (option == 0) break;
     }while(1);
 
   }
