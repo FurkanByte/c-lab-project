@@ -35,8 +35,6 @@ void listBooks(bookNode *head);
 void listBorrowedBooks(userNode *userHead, int userID);
 
 void main(){
-
-
     //Users definitions
     userNode user1;
     userNode user2;
