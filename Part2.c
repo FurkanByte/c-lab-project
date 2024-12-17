@@ -57,7 +57,12 @@ void main(){
             scanf("%d", &yearPublished);
             addBook(&bookHead, bookID, title, author, yearPublished);
         }
-        //else if (option == 2) deleteBook();
+        else if (option == 2) {
+            int bookID;
+            printf("Enter book ID to delete: ");
+            scanf("%d", &bookID);
+            deleteBook(&bookHead, bookID);
+        }
         //else if (option == 3) searchBookByTitle();
         //else if (option == 4) searchBookByAuthor();
         //else if (option == 5) checkOutBook();
@@ -128,4 +133,30 @@ void listBooks(bookNode *head) {
         i++;
     }
     printf("\nAll books listed!\n\n");
+}
+
+void deleteBook(bookNode **head, int bookID) {
+    bookNode* temp = *head;
+    if (temp == NULL) {
+        printf("No books in the list\n");
+        return;
+    }
+    if (temp->bookID == bookID) {
+        bookNode* hold = *head;
+        *head = (*head)->next;
+        free(hold);
+        printf("Book deleted successfully.\n");
+        return;
+    } //Works if first node deleting
+
+    while (temp->next->bookID != bookID) {
+        temp = temp->next;
+    }
+    if (temp->next->bookID == bookID) {
+        bookNode* hold = temp->next;
+        temp->next = temp->next->next;
+        free(hold);
+        printf("Book deleted successfully.\n");
+    }
+    else printf("Book not found\n\n");
 }
