@@ -38,6 +38,23 @@ void main(){
     bookNode *bookHead = NULL;
     userNode *userHead = NULL;
 
+    //Users definitions
+    userNode user1;
+    userNode user2;
+    userNode user3;
+
+    user1.userID = 1;
+    strcpy(user1.name, "Furkan");
+    user1.next = &user2;
+
+    user2.userID = 2;
+    strcpy(user2.name, "Albert");
+    user2.next = &user3;
+
+    user3.userID = 3;
+    strcpy(user3.name, "Trump");
+    user3.next = NULL;
+
     int option;
 
     do {
@@ -63,8 +80,32 @@ void main(){
             scanf("%d", &bookID);
             deleteBook(&bookHead, bookID);
         }
-        //else if (option == 3) searchBookByTitle();
-        //else if (option == 4) searchBookByAuthor();
+        else if (option == 3) {
+            char titleToSearch[100];
+            printf("Enter title to search: ");
+            scanf("%s", titleToSearch);
+            bookNode* temp = searchBookByTitle(bookHead, titleToSearch);
+            if (temp != NULL) {
+                printf("Book ID: %d\n", temp->bookID);
+                printf("Title: %s\n", temp->title);
+                printf("Author: %s\n", temp->author);
+                printf("Year published: %d\n", temp->yearPublished);
+            }
+
+        }
+        else if (option == 4) {
+            char authorToSearch[100];
+            printf("Enter author to search: ");
+            scanf("%s", authorToSearch);
+            bookNode* temp = searchBookByAuthor(bookHead, authorToSearch);
+            if (temp != NULL) {
+                printf("Book ID: %d\n", temp->bookID);
+                printf("Title: %s\n", temp->title);
+                printf("Author: %s\n", temp->author);
+                printf("Year published: %d\n", temp->yearPublished);
+            }
+
+        }
         //else if (option == 5) checkOutBook();
         //else if (option == 6) returnBook();
         else if (option == 7) listBooks(bookHead);
@@ -128,7 +169,7 @@ void listBooks(bookNode *head) {
                        "Author: %s\n"
                        "Year published: %d\n", i+1, temp->bookID, temp->title, temp->author, temp->yearPublished);
         if (temp->isAvailable == 1) printf("Book available\n\n");
-        else printf("Book not available\n\n");
+        else printf("Book not available.\n\n");
         temp = temp->next;
         i++;
     }
@@ -158,5 +199,38 @@ void deleteBook(bookNode **head, int bookID) {
         free(hold);
         printf("Book deleted successfully.\n");
     }
-    else printf("Book not found\n\n");
+    else printf("Book not found!\n\n");
 }
+
+bookNode* searchBookByTitle(bookNode* head, const char* title) {
+    bookNode* temp = head;
+    if (temp == NULL) {
+        printf("No books in the list!\n");
+        return NULL;
+    }
+    while (temp != NULL) {
+        if (strcmp(temp->title, title) == 0) {
+            return temp;
+        }
+        temp = temp->next;
+    }
+    printf("Book %s not found!\n", title);
+    return NULL;
+}
+
+bookNode* searchBookByAuthor(bookNode* head, const char* author) {
+    bookNode* temp = head;
+    if (temp == NULL) {
+        printf("No books in the list!\n");
+        return NULL;
+    }
+    while (temp != NULL) {
+        if (strcmp(temp->author, author) == 0) {
+            return temp;
+        }
+        temp = temp->next;
+    }
+    printf("Book %s not found!\n", author);
+    return NULL;
+}
+
