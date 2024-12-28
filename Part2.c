@@ -359,3 +359,57 @@ void listBorrowedBooks(userNode *userHead, int userID) {
         printf("User ID %d not found.\n", userID);
     }
 }
+void checkOutBook(userNode *userHead, int userID, bookNode *bookHead, int bookID) {
+    
+    userNode* tempUser = userHead;
+    while (tempUser && tempUser->userID != userID) tempUser = tempUser->next;
+
+    if (tempUser == NULL) {
+        printf("User ID %d not found.\n", userID);
+        return;
+    }
+
+    
+    bookNode* tempBook = bookHead;
+    while (tempBook && tempBook->bookID != bookID) tempBook = tempBook->next;
+
+    if (tempBook == NULL) {
+        printf("Book ID %d not found.\n", bookID);
+        return;
+    }
+
+    if (tempBook->isAvailable == 0) {
+        printf("Book ID %d is not available for checkout.\n", bookID);
+        return;
+    }
+
+    
+    bookNode* borrowedBooks = tempUser->borrowedBooks;
+    if (borrowedBooks != NULL) {
+        bookNode* current = borrowedBooks;
+        do {
+            if (current->bookID == bookID) {
+                printf("User ID %d has already borrowed Book ID %d.\n", userID, bookID);
+                return;
+            }
+            current = current->next;
+        } while (current != borrowedBooks);
+    }
+
+    
+    tempBook->isAvailable = 0; 
+
+    if (tempUser->borrowedBooks == NULL) { 
+        tempUser->borrowedBooks = tempBook;
+        tempBook->next = tempBook;
+    } else { 
+        bookNode* last = tempUser->borrowedBooks;
+        while (last->next != tempUser->borrowedBooks) {
+            last = last->next; 
+        }
+        last->next = tempBook;
+        tempBook->next = tempUser->borrowedBooks; 
+    }
+
+    printf("Book ID %d has been successfully checked out to User ID %d.\n", bookID, userID);
+}
