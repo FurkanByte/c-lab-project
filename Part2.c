@@ -118,10 +118,23 @@ void main(){
 
             checkOutBook(userHead, userID, bookHead, bookID);
         }*/
-       
+       else if (option == 6) {
+           int userID, bookID;
+           printf("Enter user ID to return: ");
+           scanf("%d", &userID);
+           printf("Enter book ID to return: ");
+           scanf("%d", &bookID);
+           returnBook(userHead, userID, bookHead, userID);
+       }
         else if (option == 7) listBooks(bookHead);
+        else if (option == 8) {
+            int userID;
+            printf("Enter user ID to list borrowed books form user: ");
+            scanf("%d", &userID);
+            listBorrowedBooks(userHead, userID);
+        }
        
-        //else if (option == 0) break;
+        else if (option == 0) break;
     }while(1);
 }
 
