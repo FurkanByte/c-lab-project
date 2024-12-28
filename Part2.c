@@ -378,6 +378,7 @@ void checkOutBook(userNode *userHead, int userID, bookNode *bookHead, int bookID
         return;
     }
 
+    
     if (tempBook->isAvailable == 0) {
         printf("Book ID %d is not available for checkout.\n", bookID);
         return;
@@ -396,13 +397,16 @@ void checkOutBook(userNode *userHead, int userID, bookNode *bookHead, int bookID
         } while (current != borrowedBooks);
     }
 
-    
-    tempBook->isAvailable = 0; 
+   
+    tempBook->isAvailable = 0;
 
+   
     if (tempUser->borrowedBooks == NULL) { 
+        // İlk kitabı ekleme
         tempUser->borrowedBooks = tempBook;
-        tempBook->next = tempBook;
+        tempBook->next = tempBook; 
     } else { 
+       
         bookNode* last = tempUser->borrowedBooks;
         while (last->next != tempUser->borrowedBooks) {
             last = last->next; 
