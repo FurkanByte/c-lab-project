@@ -109,7 +109,7 @@ void main(){
             }
 
         }
-        /*else if (option == 5) {
+        else if (option == 5) {
             int userID, bookID;
             printf("Enter user ID to borrow: ");
             scanf("%d", &userID);
@@ -117,7 +117,7 @@ void main(){
             scanf("%d", &bookID);
 
             checkOutBook(userHead, userID, bookHead, bookID);
-        }*/
+        }
        else if (option == 6) {
            int userID, bookID;
            printf("Enter user ID to return: ");
@@ -257,7 +257,7 @@ bookNode* searchBookByAuthor(bookNode* head, const char* author) {
     printf("Book %s not found!\n", author);
     return NULL;
 }
-
+/*
 void checkOutBook(userNode *userHead, int userID, bookNode *bookHead, int bookID) {
     userNode* tempUser = userHead;
     while (tempUser->userID != userID)  tempUser = tempUser->next;
@@ -290,7 +290,7 @@ void checkOutBook(userNode *userHead, int userID, bookNode *bookHead, int bookID
         else printf("UserID %d not found!\n", userID);
 
     }
-} //Not Completed
+} //Not Completed*/
 void returnBook(userNode *userHead, int userID, bookNode *bookHead, int bookID) {
     userNode* tempUser = userHead;
     while (tempUser && tempUser->userID != userID) tempUser = tempUser->next;
