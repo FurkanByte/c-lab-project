@@ -402,7 +402,7 @@ void checkOutBook(userNode *userHead, int userID, bookNode *bookHead, int bookID
 
    
     if (tempUser->borrowedBooks == NULL) { 
-        // İlk kitabı ekleme
+        
         tempUser->borrowedBooks = tempBook;
         tempBook->next = tempBook; 
     } else { 
