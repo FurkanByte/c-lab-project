@@ -118,9 +118,9 @@ void main(){
 
             checkOutBook(userHead, userID, bookHead, bookID);
         }*/
-        //else if (option == 6) returnBook();
+       
         else if (option == 7) listBooks(bookHead);
-        //else if (option == 8) listBorrowedBooks();
+       
         //else if (option == 0) break;
     }while(1);
 }
