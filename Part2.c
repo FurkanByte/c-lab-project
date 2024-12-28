@@ -278,3 +278,71 @@ void checkOutBook(userNode *userHead, int userID, bookNode *bookHead, int bookID
 
     }
 } //Not Completed
+void returnBook(userNode *userHead, int userID, bookNode *bookHead, int bookID) {
+    userNode* tempUser = userHead;
+    while (tempUser && tempUser->userID != userID) tempUser = tempUser->next;
+
+    if (tempUser && tempUser->userID == userID) {
+        if (tempUser->borrowedBooks == NULL) {
+            printf("User has no borrowed books.\n");
+            return;
+        }
+
+        bookNode* current = tempUser->borrowedBooks;
+        bookNode* prev = NULL;
+
+        do {
+            if (current->bookID == bookID) {
+                if (prev == NULL) { // Removing the only book in the circular list
+                    if (current->next == current) {
+                        tempUser->borrowedBooks = NULL;
+                    } else {
+                        bookNode* last = current;
+                        while (last->next != current) last = last->next;
+                        tempUser->borrowedBooks = current->next;
+                        last->next = tempUser->borrowedBooks;
+                    }
+                } else {
+                    prev->next = current->next;
+                    if (current == tempUser->borrowedBooks) {
+                        tempUser->borrowedBooks = current->next;
+                    }
+                }
+
+                current->isAvailable = 1;
+                printf("Book ID %d returned successfully.\n", bookID);
+                return;
+            }
+
+            prev = current;
+            current = current->next;
+        } while (current != tempUser->borrowedBooks);
+
+        printf("Book ID %d not found in user's borrowed books.\n", bookID);
+    } else {
+        printf("User ID %d not found.\n", userID);
+    }
+}
+void listBorrowedBooks(userNode *userHead, int userID) {
+    userNode* tempUser = userHead;
+    while (tempUser && tempUser->userID != userID) tempUser = tempUser->next;
+
+    if (tempUser && tempUser->userID == userID) {
+        if (tempUser->borrowedBooks == NULL) {
+            printf("User has no borrowed books.\n");
+            return;
+        }
+
+        bookNode* current = tempUser->borrowedBooks;
+        do {
+            printf("Book ID: %d\n", current->bookID);
+            printf("Title: %s\n", current->title);
+            printf("Author: %s\n", current->author);
+            printf("Year Published: %d\n\n", current->yearPublished);
+
+            current = current->next;
+        } while (current != tempUser->borrowedBooks);
+    } else {
+        printf("User ID %d not found.\n", userID);
+    }
+}
